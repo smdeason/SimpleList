@@ -4,16 +4,17 @@
  * Assignment#: 2
  * Description: A class that creates a list that contains 10 elements
  * 				and contains and add, remove, count, search, and toString
- * 				methods. Once all 10 elements in the list are full the oldest
- * 				element falls out of the list.
+ * 				methods. One the list is filled the size of the list
+ * 				is dynamically increased by 50% and if more than 25% of the
+ * 				list is empty spaces then the size is decreased by 25%.
  */
 
 package cse360assign2;
 
 /**
- * A list of 10 elements that once 10 elements is reached overflows
- * removing the earliest element added. Contains add, remove, count,
- * search, and toString methods.
+ * A list of elements that dynamically increases in size by 50% once filled 
+ * or decreases by 25% when more than 25% of the list is empty and an element is removed. 
+ * Contains add, remove, count, search, and toString methods.
  * @author Shawn Deason
  */
 
@@ -36,32 +37,37 @@ public class SimpleList{
 	
 	/**
 	 * Appends the newElement to the front of the list.
-	 * Pushes any element over count 10 off the list.
+	 * Increases the size of the list by 50% if the list is filled.
 	 * @param newElement integer to be added to the list
 	 */
 	public void add(int newElement) {
-		if(count < 10) {
-			//shifts elements to the right and adds to the front element
-			for(int iterator = count; iterator > 0 ; iterator--) {
-				list[iterator] = list[iterator - 1];
+		if(count == list.length) {
+			//increases the size of the list
+			int[] tempList = new int[list.length + list.length/2];
+			for(int iterator = 0; iterator < list.length; iterator++) {
+				tempList[iterator] = list[iterator];
 			}
+			list = tempList;
 			
-			list[0] = newElement;
-			count++;
-			
+			//actually adds the element
+			add(newElement);
 		} else {
-			//shifts elements to the right and adds to the front element
-			//handles case of pushing off elements
-			for(int iterator = count-1; iterator > 0 ; iterator--) {
-				list[iterator] = list[iterator - 1];
+			if(count < list.length) {
+				//shifts elements to the right and adds to the front element
+				for(int iterator = count; iterator > 0 ; iterator--) {
+					list[iterator] = list[iterator - 1];
+				}
+				
+				list[0] = newElement;
+				count++;
+				
 			}
-			
-			list[0] = newElement;
 		}
 	}
 	
 	/**
 	 * Removes the first occurrence of specified value from the list.
+	 * Decreases the size of the list if more than 25% of the list is empty spaces.
 	 * @param removedElement integer to be removed from the list
 	 */
 	public void remove(int removedElement) {
@@ -77,6 +83,16 @@ public class SimpleList{
 			list[count - 1] = 0;
 			count--;
 		} 
+
+		//Decreases the size of the list after removing an element
+		if((double) count / (double) list.length < 0.75 && list.length > 1) {
+			int[] tempList = new int[list.length - (int) Math.floor(0.25 * list.length)];
+			for(int iterator = 0; iterator < count; iterator++) {
+				tempList[iterator] = list[iterator];
+			}
+			list = tempList;
+		}
+		
 	}
 	
 	/**
