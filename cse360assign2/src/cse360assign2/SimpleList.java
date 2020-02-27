@@ -3,10 +3,10 @@
  * Class ID: 235
  * Assignment#: 2
  * Description: A class that creates a list that contains 10 elements
- * 				and contains and add, remove, count, search, and toString
- * 				methods. One the list is filled the size of the list
- * 				is dynamically increased by 50% and if more than 25% of the
- * 				list is empty spaces then the size is decreased by 25%.
+ * 				and contains and add, append, remove, count, size, first, last, 
+ * 				search, and toString methods. Once the list is filled the size 
+ * 				of the list is dynamically increased by 50% and if more than 25% 
+ * 				of the list is empty spaces then the size is decreased by 25%.
  */
 
 package cse360assign2;
@@ -14,7 +14,7 @@ package cse360assign2;
 /**
  * A list of elements that dynamically increases in size by 50% once filled 
  * or decreases by 25% when more than 25% of the list is empty and an element is removed. 
- * Contains add, remove, count, search, and toString methods.
+ * Contains add, append, remove, count, size, first, last, search, and toString methods.
  * @author Shawn Deason
  */
 
@@ -66,6 +66,30 @@ public class SimpleList{
 	}
 	
 	/**
+	 * Appends the newElement to the end of the list.
+	 * Increases the size of the list by 50% if the list is filled.
+	 * @param newElement integer to be added to the list
+	 */
+	public void append(int newElement) {
+		if(count == list.length) {
+			//increases the size of the list
+			int[] tempList = new int[list.length + list.length/2];
+			for(int iterator = 0; iterator < list.length; iterator++) {
+				tempList[iterator] = list[iterator];
+			}
+			list = tempList;
+			
+			//adds element to end of list
+			append(newElement);
+		} else {
+			if(count < list.length) {
+				list[count] = newElement;
+				count++;
+			}
+		}
+	}
+	
+	/**
 	 * Removes the first occurrence of specified value from the list.
 	 * Decreases the size of the list if more than 25% of the list is empty spaces.
 	 * @param removedElement integer to be removed from the list
@@ -101,6 +125,40 @@ public class SimpleList{
 	 */
 	public int count() {
 		return count;
+	}
+	
+	/**
+	 * Returns the first element in the list.
+	 * If the list is empty returns -1.
+	 * @return the first element in the list, or -1 if no elements exist
+	 */
+	public int first() {
+		int output = -1;
+		if(count > 0) {
+			output = list[0];
+		}
+		return output;
+	}
+	
+	/**
+	 * Returns the last element in the list.
+	 * If the list is empty returns -1.
+	 * @return the last element in the list, or -1 if no elements exist
+	 */
+	public int last() {
+		int output = -1;
+		if(count > 0) {
+			output = list[count - 1];
+		}
+		return output;
+	}
+	
+	/**
+	 * Returns the number of locations in the list.
+	 * @return number of locations in the list
+	 */
+	public int size() {
+		return list.length;
 	}
 	
 	/**
