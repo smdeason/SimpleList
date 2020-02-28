@@ -109,8 +109,8 @@ public class SimpleList{
 		} 
 
 		//Decreases the size of the list after removing an element
-		if((double) count / (double) list.length < 0.75 && list.length > 1) {
-			int[] tempList = new int[list.length - (int) Math.floor(0.25 * list.length)];
+		if(count <= ((3 * list.length) / 4) && list.length > 1) {
+			int[] tempList = new int[(3 * list.length) / 4];
 			for(int iterator = 0; iterator < count; iterator++) {
 				tempList[iterator] = list[iterator];
 			}
